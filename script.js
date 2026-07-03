@@ -2,7 +2,7 @@ document.getElementById("startButton").addEventListener("click", startCamera);
 
 let scanner;
 
-function startCamera(){
+function startCamera() {
 
     const reader = document.getElementById("reader");
     reader.innerHTML = "";
@@ -11,8 +11,8 @@ function startCamera(){
   
     scanner.start(
       { facingMode: "environment" },
-      { fps: 10,
-        qrbox: 250
+      { fps: 15,
+        qrbox: {width: 200, height:200}
       },
       onScanSuccess,
       function(error){
