@@ -76,7 +76,7 @@ function loadLessons(member){
         })
     })
     .then(response => response.json())
-    .then(lesson => {
+    .then(lessons => {
         console.log(lessons);
     })
     .catch(error=>{
