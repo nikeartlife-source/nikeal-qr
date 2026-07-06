@@ -58,5 +58,29 @@ function showMemberMenu(member) {
         <button id="lessonButton">レッスン登録</button>
         <button id="pointButton">ポイント購入</button>
     `;
+    document.getElementById("lessonButton").addEventListener("click", function(){
+        loadLessons(member);
+    });
+    document.getElementById("pointButton").addEventListener("click", function(){
+        alert("ポイント購入はこれから作ります");
+    });
+}
+
+function loadLessons(member){
+    document.getElementById("result").innerHTML = "レッスンを取得しています...";
+
+    fetch(GAS_URL, {
+        method:"POST",
+        body:JSON.stringify({
+            action:"getLessons"
+        })
+    })
+    .then(response => response.json())
+    .then(lesson => {
+        console.log(lessons);
+    })
+    .catch(error=>{
+        document.getElementById("result").innerHTML = error;
+    });
 }
 
