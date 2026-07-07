@@ -79,7 +79,8 @@ function loadLessons(member){
     .then(lessons => {
         alert(JSON.stringify(lessons));
     })
-    .catch(error);
+    .catch(error => {
+        alert(error);
         document.getElementById("result").innerHTML = error;
     });
 }
