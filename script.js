@@ -77,11 +77,44 @@ function loadLessons(member){
     })
     .then(response => response.json())
     .then(lessons => {
-        alert(JSON.stringify(lessons));
+        showLessonList(member, lessons);
     })
     .catch(error => {
         alert(error);
         document.getElementById("result").innerHTML = error;
+    });
+}
+
+function showLessonList(member, lessons) {
+
+    let html = `
+        <h2>${member.name} さん</h2>
+        <p>レッスンを選んでください</p>
+    `;
+
+    lessons.forEach(function(lesson){
+        html += `
+            <button class="lessonButton"
+                data-id="${lesson.lessonId}">
+                ${lesson.lessonName}<br>
+                ${lesson.teacher}
+            </button><br><br>
+        `;
+    });
+
+    html += `
+        <button id="backButton">戻る</button>
+    `;
+
+    document.getElementById("result").innerHTML = html;
+    document.querySelectorAll(".lessonButton").forEach(function(button){
+        button.addEventListener("click", function(){
+            alert("選択したレッスン\n\n" + this.innerText);
+        });
+    });
+
+    document.getElementById("backButton").addEventListener("click", function(){
+        showMemberMenu(member);
     });
 }
 
