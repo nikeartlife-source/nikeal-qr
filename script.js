@@ -77,9 +77,9 @@ function loadLessons(member){
     })
     .then(response => response.json())
     .then(lessons => {
-        console.log(lessons);
+        alert(JSON.stringify(lessons));
     })
-    .catch(error=>{
+    .catch(error);
         document.getElementById("result").innerHTML = error;
     });
 }
