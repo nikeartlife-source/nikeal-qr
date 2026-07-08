@@ -109,8 +109,12 @@ function showLessonList(member, lessons) {
     document.getElementById("result").innerHTML = html;
     document.querySelectorAll(".lessonButton").forEach(function(button){
         button.addEventListener("click", function(){
-            alert("選択したレッスン\n\n" + this.innerText);
+
+            const lesson = lessons.find(function(l){
+                return l.lessonId === button.dataset.id;
         });
+        showConfirm(member, lesson);
+    });
     });
 
     document.getElementById("backButton").addEventListener("click", function(){
@@ -118,3 +122,23 @@ function showLessonList(member, lessons) {
     });
 }
 
+function showConfirm(member, lesson){
+
+    document.getElementById("result").innerHTML = `
+        <h2>登録確認</h2>
+        <p>${member.name} さん</p>
+        <p>${lesson.lessonName}</p>
+        <p>${lesson.teacher}</p>
+        <p>消費ポイント: ${lesson.pointCost}pt</p>
+        <button id="registerButton">登録する</button>
+        <button id="backButton">戻る</button>
+    `;
+
+    document.getElementById("backButton").addEventListener("click", function(){
+        loadLessons(member);
+    });
+
+    document.getElementById("registerButton").addEventListener("click", function(){
+        alert("次はここで登録処理を作ります！");
+    });
+}
