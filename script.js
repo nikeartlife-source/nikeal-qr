@@ -139,6 +139,36 @@ function showConfirm(member, lesson){
     });
 
     document.getElementById("registerButton").addEventListener("click", function(){
-        alert("次はここで登録処理を作ります！");
+
+        fetch(GAS_URL, {
+            method:"POST",
+            body:JSON.stringify({
+                action:"registerLesson",
+                record:{
+                    memberId: member.memberId,
+                    lessonId: lesson.lessonId,
+                    teacher: lesson.teacher,
+                    pointCost: lesson.pointCost,
+                    cashPrice: lesson.cashPrice,
+                    paymentMethod:"ポイント"
+                }
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+
+            if(result.success){
+                document.getElementById("result").innerHTML = `
+                    <h2>受付完了!</h2>
+                    <p>${member.name} さん</p>
+                    <p>${lesson.lessonName}</p>
+                `;
+            }else{
+                alert(result.message);
+            }
+        })
+        .catch(error=>{
+            alert(error);
+        });
     });
 }
