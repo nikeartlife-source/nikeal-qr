@@ -136,6 +136,24 @@ function showConfirm(member, lesson){
         <p>${lesson.lessonName}</p>
         <p>${lesson.teacher}</p>
         <p>消費ポイント: ${lesson.pointCost}pt</p>
+
+        <h3>支払い方法</h3>
+
+        <label>
+            <input type="radio" name="paymentMethod" value="ポイント" checked>
+            ポイント
+        </label><br>
+
+        <label>
+            <input type="radio" name="paymentMethod" value="キャッシュ">
+            キャッシュ
+        </label><br>
+
+        <label>
+            <input type="radio" name="paymentMethod" value="月謝">
+            月謝
+        </label><br><br>
+        
         <button id="registerButton">登録する</button>
         <button id="backButton">戻る</button>
     `;
