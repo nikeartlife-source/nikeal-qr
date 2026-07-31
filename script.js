@@ -32,9 +32,10 @@ function onScanSuccess(decodedText){
 
   fetch(GAS_URL, {
       method: "POST",
-      headers: {
+      mode: "cors",
+    /*  headers: {
           "Content-Type": "application/json"
-      },
+      }, */
       body: JSON.stringify({
           action: "findMemberByQr",
           qrId: decodedText
@@ -77,9 +78,10 @@ function loadLessons(member){
 
     fetch(GAS_URL, {
         method:"POST",
-        headers: {
+        mode:"cors",
+       /* headers: {
             "Content-Type": "application/json"
-        },
+        }, */
         body:JSON.stringify({
             action:"getLessons"
         })
@@ -169,9 +171,10 @@ function showConfirm(member, lesson){
 
         fetch(GAS_URL, {
             method:"POST",
-            headers: {
+            mode:"cors",
+          /*  headers: {
                 "Content-Type": "application/json"
-            },
+            }, */
             body:JSON.stringify({
                 action:"registerLesson",
                 record:{
