@@ -174,7 +174,7 @@ function showConfirm(member, lesson){
                     teacher: lesson.teacher,
                     pointCost: lesson.pointCost,
                     cashPrice: lesson.cashPrice,
-                    paymentMethod:"ポイント"
+                    paymentMethod:document.querySelector('input[name="paymentMethod"]:checked').value
                 }
             })
         })
