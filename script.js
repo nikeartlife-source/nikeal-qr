@@ -163,7 +163,7 @@ function showConfirm(member, lesson){
         loadLessons(member);
     });
 
-    document.querySelectorAll('input[name="paymentMethod"])
+    document.querySelectorAll('input[name="paymentMethod"]')
       .forEach(function(radio){
 
           radio.addEventListener("change", function(){
