@@ -33,9 +33,6 @@ function onScanSuccess(decodedText){
   fetch(GAS_URL, {
       method: "POST",
       mode: "cors",
-    /*  headers: {
-          "Content-Type": "application/json"
-      }, */
       body: JSON.stringify({
           action: "findMemberByQr",
           qrId: decodedText
@@ -79,9 +76,6 @@ function loadLessons(member){
     fetch(GAS_URL, {
         method:"POST",
         mode:"cors",
-       /* headers: {
-            "Content-Type": "application/json"
-        }, */
         body:JSON.stringify({
             action:"getLessons"
         })
@@ -172,9 +166,6 @@ function showConfirm(member, lesson){
         fetch(GAS_URL, {
             method:"POST",
             mode:"cors",
-          /*  headers: {
-                "Content-Type": "application/json"
-            }, */
             body:JSON.stringify({
                 action:"registerLesson",
                 record:{
@@ -196,6 +187,7 @@ function showConfirm(member, lesson){
                     <p>${member.name} さん</p>
                     <p>${lesson.lessonName}</p>
                 `;
+                document.getElementById("nextButton").style.display = "block";
             }else{
                 alert(result.message);
             }
@@ -205,3 +197,9 @@ function showConfirm(member, lesson){
         });
     });
 }
+
+document.getElementById("nextButton").addEventListener("click", function(){
+    document.getElementById("nextButton").style.display = "none";
+    document.getElementById("result").innerHTML = "QRコードを読み取ってください";
+    startCamera();
+});
