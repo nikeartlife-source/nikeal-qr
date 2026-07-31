@@ -134,7 +134,9 @@ function showConfirm(member, lesson){
         <p>${member.name} さん</p>
         <p>${lesson.lessonName}</p>
         <p>${lesson.teacher}</p>
-        <p>消費ポイント: ${lesson.pointCost}pt</p>
+        <p id="priceDisplay">
+            消費ポイント: ${lesson.pointCost}pt
+        </p>
 
         <h3>支払い方法</h3>
 
@@ -160,6 +162,24 @@ function showConfirm(member, lesson){
     document.getElementById("backButton").addEventListener("click", function(){
         loadLessons(member);
     });
+
+    document.querySelectorAll('input[name="paymentMethod"])
+      .forEach(function(radio){
+
+          radio.addEventListener("change", function(){
+              const display = document.getElementById("priceDisplay");
+              
+              if(this.value === "ポイント"){
+                  display.innerHTML = `消費ポイント: ${lesson.pointCost}pt`;
+                  
+              }else if(this.value === "キャッシュ"){
+                  display.innerHTML = `料金: ${lesson.cashPrice}円`;
+
+              }else if(this.value === "月謝"){
+                  display.innerHTML = `月謝`;
+              }
+          });
+      });
 
     document.getElementById("registerButton").addEventListener("click", function(){
 
