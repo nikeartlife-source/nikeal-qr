@@ -51,7 +51,8 @@ function onScanSuccess(decodedText){
       showMemberMenu(member);
   })
   .catch(error => {
-      document.getElementById("result").innerHTML = error;
+      console.error(error);
+      document.getElementById("result").innerHTML = "通信エラー：" + error.message;
   });
 }
 
