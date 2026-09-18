@@ -304,23 +304,119 @@ function showPurchaseConfirm(member, plan) {
 
     document.getElementById("purchaseButton")
 
-        .addEventListener("click", function(){
+    .addEventListener("click", function(){
 
-            const paymentMethod =
+        const paymentMethod =
 
-                document.querySelector(
+            document.querySelector(
 
-                    'input[name="paymentMethod"]:checked'
+                'input[name="paymentMethod"]:checked'
 
-                ).value;
+            ).value;
 
-            alert(
+        fetch(GAS_URL, {
 
-                "ポイント購入処理はこれからGASにつなぎます"
+            method: "POST",
 
-            );
+            mode: "cors",
+
+            body: JSON.stringify({
+
+                action: "purchasePoints",
+
+                record: {
+
+                    memberId: member.memberId,
+
+                    memberName: member.name,
+
+                    planId: plan.planId,
+
+                    points: plan.points,
+
+                    price: plan.price,
+
+                    paymentMethod: paymentMethod
+
+                }
+
+            })
+
+        })
+
+        .then(response => response.json())
+
+        .then(result => {
+
+            if(result.success){
+
+                document.getElementById("result").innerHTML = `
+
+                    <h2>購入完了！</h2>
+
+                    <p>${member.name} さん</p>
+
+                    <p>
+
+                        ${result.points}ポイント
+
+                    </p>
+
+                    <p>
+
+                        ${result.price}円
+
+                    </p>
+
+                    <p>
+
+                        支払い方法：${paymentMethod}
+
+                    </p>
+
+                    <p>
+
+                        現在の残りポイント：
+
+                        ${result.remainingPoints}pt
+
+                    </p>
+
+                    <br>
+
+                    <button id="homeButton">
+
+                        ホームに戻る
+
+                    </button>
+
+                `;
+
+                document.getElementById("homeButton")
+
+                    .addEventListener("click", function(){
+
+                        location.href = "index.html";
+
+                    });
+
+            }else{
+
+                alert(result.message || "購入登録に失敗しました");
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            alert("通信エラー：" + error.message);
 
         });
+
+    });
 
 }
 
