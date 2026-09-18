@@ -3,7 +3,6 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycby_VpnfCPFYXOVXNM-34rlE
 let scanner;
 
 document.getElementById("startButton").addEventListener("click", startCamera);
-
 document.getElementById("homeButton").addEventListener("click", function(){
 
     location.href = "index.html";
@@ -25,15 +24,10 @@ function startCamera() {
         {
 
             fps: 15,
-
             qrbox: {
-
-                width: 200,
-
-                height: 200
-
+            width: 200,
+            height: 200
             }
-
         },
 
         onScanSuccess,
@@ -55,44 +49,55 @@ function startCamera() {
 function onScanSuccess(decodedText) {
 
     scanner.stop();
-
-    document.getElementById("result").innerHTML =
-
-        "会員を検索しています...";
+    document.getElementById("result").innerHTML = "会員を検索しています...";
 
     fetch(GAS_URL, {
 
         method: "POST",
-
         mode: "cors",
-
         body: JSON.stringify({
-
             action: "findMemberByQr",
-
             qrId: decodedText
-
         })
-
     })
 
-    .then(response => response.json())
+    .then(response => response.text())
 
-    .then(member => {
+.then(text => {
 
-        if(!member){
+    console.log("GASからの返答:", text);
 
-            document.getElementById("result").innerHTML =
+    let member;
 
-                "❌ 会員が見つかりません";
+    try {
 
-            return;
+        member = JSON.parse(text);
 
-        }
+    } catch(error) {
 
-        showPointPlans(member);
+        document.getElementById("result").innerHTML =
 
-    })
+            "GASからの返答がJSONではありません。<br><br>" + text;
+
+        return;
+
+    }
+
+    if(!member){
+
+        document.getElementById("result").innerHTML =
+
+            "❌ 会員が見つかりません";
+
+        return;
+
+    }
+
+    showPointPlans(member);
+
+})
+
+
 
     .catch(error => {
 
