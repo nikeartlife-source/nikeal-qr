@@ -1,34 +1,62 @@
 <!DOCTYPE html>
+
 <html lang="ja">
+
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NikeAL QR受付</title>
+
+  <title>NikeAL 管理システム</title>
 
   <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
   <div class="container">
-    <h1>NikeAL QR受付</h1>
 
-    <button id="startButton">
-      📷 カメラを起動
+    <h1>NikeAL</h1>
+
+    <p>管理システム</p>
+
+    <button onclick="location.href='reception.html'">
+
+      📷 QR受付
+
     </button>
 
-    <div id="reader"></div>
+    <button onclick="location.href='points.html'">
 
-    <p id="result">
-      QRコードを読み取ってください
-    </p>
+      💰 ポイント購入
 
-    <button id="nextButton" style="display:none;">
-      もう一人受付する
     </button>
+
+    <button onclick="location.href='member.html'">
+
+      👤 新規会員登録
+
+    </button>
+
+    <button onclick="location.href='search.html'">
+
+      🔍 会員検索
+
+    </button>
+
+    <button onclick="location.href='history.html'">
+
+      📖 レッスン履歴
+
+    </button>
+
   </div>
 
-  <script src="https://unpkg.com/html5-qrcode"></script>
-  <script src="script.js"></script>
-  
 </body>
+
 </html>
+
+
+
