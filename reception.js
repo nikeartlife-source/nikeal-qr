@@ -66,7 +66,7 @@ function showMemberMenu(member) {
         loadLessons(member);
     });
     document.getElementById("pointButton").addEventListener("click", function(){
-        alert("ポイント購入はこれから作ります");
+        location.href = "points.html?memberId=" + encodeURIComponent(member.memberId);
     });
 }
 
