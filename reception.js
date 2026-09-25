@@ -58,7 +58,7 @@ function showMemberMenu(member) {
     document.getElementById("result").innerHTML = `
         <h2>ようこそ!</h2>
         <p>${member.name} さん</p>
-
+        <p>現在の残りポイント: ${member.remainingPoints}pt</p>
         <button id="lessonButton">レッスン登録</button>
         <button id="pointButton">ポイント購入</button>
     `;
