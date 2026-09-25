@@ -206,6 +206,7 @@ function showConfirm(member, lesson){
                     <h2>受付完了!</h2>
                     <p>${member.name} さん</p>
                     <p>${lesson.lessonName}</p>
+                    <p>現在の残りポイント: ${result.remainingPoints}pt</p>
                 `;
                 document.getElementById("nextButton").style.display = "block";
             }else{
