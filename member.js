@@ -32,9 +32,7 @@ document.getElementById("registerButton").addEventListener("click", function(){
         method: "POST",
         mode: "cors",
         body: JSON.stringify({
-
             action: "registerMember",
-
             member: {
                 name: name,
                 kana: kana,
@@ -50,22 +48,35 @@ document.getElementById("registerButton").addEventListener("click", function(){
     .then(response => response.json())
     .then(result => {
 
-        if(result.success){
+if(result.success){
+            document.getElementById("memberForm").style.display = "none";
             document.getElementById("result").innerHTML = `
                 <h2>会員登録完了！</h2>
                 <p>${result.name} さん</p>
                 <p>会員ID：${result.memberId}</p>
                 <p>QR ID：${result.qrId}</p>
+                <div id="qrcode"></div>
+                <p>このQRコードを会員証として保存してください。</p>
+                <button onclick="location.href='index.html'">
+                    管理画面に戻る
+                </button>
             `;
-            document.getElementById("memberForm").style.display = "none";
+
+            new QRCode(
+                document.getElementById("qrcode"),
+                {
+                    text: result.qrId,
+                    width: 250,
+                    height: 250
+                }
+            );
         }else{
             alert(result.message || "会員登録に失敗しました");
         }
     })
-
     .catch(error => {
         console.error(error);
         alert("通信エラー：" + error.message);
-
     });
 });
+
