@@ -60,6 +60,20 @@ if(!memberId){
 
             <div id="qrcode"></div>
 
+            <br>
+
+            <button id="pointHistoryButton">
+
+                💰 ポイント購入履歴
+
+            </button>
+
+            <button id="lessonHistoryButton">
+
+                📖 レッスン履歴
+
+            </button>
+
         `;
 
         new QRCode(
@@ -77,6 +91,34 @@ if(!memberId){
             }
 
         );
+
+        document
+
+            .getElementById("pointHistoryButton")
+
+            .addEventListener("click", function(){
+
+                location.href =
+
+                    "point-history.html?memberId=" +
+
+                    encodeURIComponent(member.memberId);
+
+            });
+
+        document
+
+            .getElementById("lessonHistoryButton")
+
+            .addEventListener("click", function(){
+
+                location.href =
+
+                    "lesson-history.html?memberId=" +
+
+                    encodeURIComponent(member.memberId);
+
+            });
 
     })
 
