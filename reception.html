@@ -4,20 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NikeAL QR受付</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
+<body>
   <div class="container">
     <h1>NikeAL QR受付</h1>
-
     <button id="startButton">
       📷 カメラを起動
     </button>
 
     <div id="reader"></div>
-
     <p id="result">
       QRコードを読み取ってください
     </p>
@@ -25,10 +22,17 @@
     <button id="nextButton" style="display:none;">
       もう一人受付する
     </button>
+
+    <button id="newMemberButton">
+      ＋ 新規会員登録
+    </button>
   </div>
 
   <script src="https://unpkg.com/html5-qrcode"></script>
   <script src="reception.js"></script>
-  
+
 </body>
 </html>
+
+
+
