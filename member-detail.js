@@ -16,10 +16,12 @@ if(!memberId){
     })
 
     .then(response => response.json())
+
     .then(member => {
 
         if(!member){
             document.getElementById("result").innerHTML = "<p>会員が見つかりませんでした。</p>";
+            
             return;
         }
 
@@ -30,14 +32,25 @@ if(!memberId){
             <p>入会日：${member.joinDate}</p>
             <p>現在の残りポイント：${member.remainingPoints}pt</p>
             <hr>
-            <p>会員ID：${member.memberId}</p>
-            <p>QR ID：${member.qrId}</p>
+            <h3>会員QRコード</h3>
+            <div id="qrcode"></div>
         `;
+
+        new QRCode(
+            document.getElementById("qrcode"),
+
+            {
+                text: member.qrId,
+                width: 250,
+                height: 250
+            }
+        );
     })
 
     .catch(error => {
         console.error(error);
-        document.getElementById("result").innerHTML = "通信エラー：" + error.message;
+
+        document.getElementById("result").innerHTML =
+            "通信エラー：" + error.message;
     });
 }
-
