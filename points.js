@@ -1,103 +1,66 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycby_VpnfCPFYXOVXNM-34rlEqUwPAQ89iAh_y9a5ku2f3N7UT-xQwWhsHm6lv62p0j2m/exec";
 
-let scanner;
+const params = new URLSearchParams(location.search);
 
-document.getElementById("startButton").addEventListener("click", startCamera);
+const memberId = params.get("memberId");
+
 document.getElementById("homeButton").addEventListener("click", function(){
 
     location.href = "index.html";
 
 });
 
-function startCamera() {
+if(!memberId){
 
-    const reader = document.getElementById("reader");
+    document.getElementById("result").innerHTML =
 
-    reader.innerHTML = "";
+        "会員情報がありません。QR受付から開いてください。";
 
-    scanner = new Html5Qrcode("reader");
+}else{
 
-    scanner.start(
-
-        { facingMode: "environment" },
-
-        {
-
-            fps: 15,
-            qrbox: {
-            width: 200,
-            height: 200
-            }
-        },
-
-        onScanSuccess,
-
-        function(error){
-
-            // 読み取り中は何もしない
-
-        }
-
-    ).catch(function(err){
-
-        alert("カメラ起動失敗\n\n" + err);
-
-    });
+    loadMember(memberId);
 
 }
 
-function onScanSuccess(decodedText) {
+function loadMember(memberId) {
 
-    scanner.stop();
-    document.getElementById("result").innerHTML = "会員を検索しています...";
+    document.getElementById("result").innerHTML =
+
+        "会員情報を取得しています...";
 
     fetch(GAS_URL, {
 
         method: "POST",
+
         mode: "cors",
+
         body: JSON.stringify({
-            action: "findMemberByQr",
-            qrId: decodedText
+
+            action: "getMemberById",
+
+            memberId: memberId
+
         })
+
     })
 
-    .then(response => response.text())
+    .then(response => response.json())
 
-.then(text => {
+    .then(member => {
 
-    console.log("GASからの返答:", text);
+        if(!member){
 
-    let member;
+            document.getElementById("result").innerHTML =
 
-    try {
+                "❌ 会員が見つかりません";
 
-        member = JSON.parse(text);
+            return;
 
-    } catch(error) {
+        }
 
-        document.getElementById("result").innerHTML =
+        showPointPlans(member);
 
-            "GASからの返答がJSONではありません。<br><br>" + text;
-
-        return;
-
-    }
-
-    if(!member){
-
-        document.getElementById("result").innerHTML =
-
-            "❌ 会員が見つかりません";
-
-        return;
-
-    }
-
-    showPointPlans(member);
-
-})
-
-
+    })
 
     .catch(error => {
 
@@ -116,6 +79,8 @@ function showPointPlans(member) {
     document.getElementById("result").innerHTML = `
 
         <h2>${member.name} さん</h2>
+
+        <p>現在の残りポイント：${member.remainingPoints}pt</p>
 
         <p>購入するポイントを選んでください</p>
 
@@ -219,7 +184,7 @@ function loadPointPlans(member) {
 
         .addEventListener("click", function(){
 
-            location.href = "index.html";
+            location.href = "reception.html";
 
         });
 
@@ -309,119 +274,133 @@ function showPurchaseConfirm(member, plan) {
 
     document.getElementById("purchaseButton")
 
-    .addEventListener("click", function(){
+        .addEventListener("click", function(){
 
-        const paymentMethod =
+            const paymentMethod =
 
-            document.querySelector(
+                document.querySelector(
 
-                'input[name="paymentMethod"]:checked'
+                    'input[name="paymentMethod"]:checked'
 
-            ).value;
+                ).value;
 
-        fetch(GAS_URL, {
+            fetch(GAS_URL, {
 
-            method: "POST",
+                method: "POST",
 
-            mode: "cors",
+                mode: "cors",
 
-            body: JSON.stringify({
+                body: JSON.stringify({
 
-                action: "purchasePoints",
+                    action: "purchasePoints",
 
-                record: {
+                    record: {
 
-                    memberId: member.memberId,
+                        memberId: member.memberId,
 
-                    memberName: member.name,
+                        memberName: member.name,
 
-                    planId: plan.planId,
+                        planId: plan.planId,
 
-                    points: plan.points,
+                        points: plan.points,
 
-                    price: plan.price,
+                        price: plan.price,
 
-                    paymentMethod: paymentMethod
+                        paymentMethod: paymentMethod
+
+                    }
+
+                })
+
+            })
+
+            .then(response => response.json())
+
+            .then(result => {
+
+                if(result.success){
+
+                    document.getElementById("result").innerHTML = `
+
+                        <h2>購入完了！</h2>
+
+                        <p>${member.name} さん</p>
+
+                        <p>
+
+                            ${result.points}ポイント
+
+                        </p>
+
+                        <p>
+
+                            ${result.price}円
+
+                        </p>
+
+                        <p>
+
+                            支払い方法：${paymentMethod}
+
+                        </p>
+
+                        <p>
+
+                            現在の残りポイント：
+
+                            ${result.remainingPoints}pt
+
+                        </p>
+
+                        <br>
+
+                        <button id="homeButton">
+
+                            ホームに戻る
+
+                        </button>
+
+                    `;
+
+                    document.getElementById("homeButton")
+
+                        .addEventListener("click", function(){
+
+                            location.href = "index.html";
+
+                        });
+
+                }else{
+
+                    alert(
+
+                        result.message ||
+
+                        "購入登録に失敗しました"
+
+                    );
 
                 }
 
             })
 
-        })
+            .catch(error => {
 
-        .then(response => response.json())
+                console.error(error);
 
-        .then(result => {
+                alert(
 
-            if(result.success){
+                    "通信エラー：" +
 
-                document.getElementById("result").innerHTML = `
+                    error.message
 
-                    <h2>購入完了！</h2>
+                );
 
-                    <p>${member.name} さん</p>
-
-                    <p>
-
-                        ${result.points}ポイント
-
-                    </p>
-
-                    <p>
-
-                        ${result.price}円
-
-                    </p>
-
-                    <p>
-
-                        支払い方法：${paymentMethod}
-
-                    </p>
-
-                    <p>
-
-                        現在の残りポイント：
-
-                        ${result.remainingPoints}pt
-
-                    </p>
-
-                    <br>
-
-                    <button id="homeButton">
-
-                        ホームに戻る
-
-                    </button>
-
-                `;
-
-                document.getElementById("homeButton")
-
-                    .addEventListener("click", function(){
-
-                        location.href = "index.html";
-
-                    });
-
-            }else{
-
-                alert(result.message || "購入登録に失敗しました");
-
-            }
-
-        })
-
-        .catch(error => {
-
-            console.error(error);
-
-            alert("通信エラー：" + error.message);
+            });
 
         });
 
-    });
-
 }
+
+
 
