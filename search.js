@@ -1,14 +1,13 @@
 const GAS_URL = "https://script.google.com/macros/s/AKfycby_VpnfCPFYXOVXNM-34rlEqUwPAQ89iAh_y9a5ku2f3N7UT-xQwWhsHm6lv62p0j2m/exec";
 
 document.getElementById("searchButton").addEventListener("click", function(){
-
     const keyword = document.getElementById("keyword").value.trim();
 
     if(!keyword){
         alert("氏名またはフリガナを入力してください");
         return;
     }
-
+    
     document.getElementById("result").innerHTML = "検索しています...";
     fetch(GAS_URL, {
         method: "POST",
@@ -23,7 +22,8 @@ document.getElementById("searchButton").addEventListener("click", function(){
     .then(members => {
 
         if(members.length === 0){
-            document.getElementById("result").innerHTML = "<p>該当する会員が見つかりませんでした。</p>";
+            document.getElementById("result").innerHTML =
+                "<p>該当する会員が見つかりませんでした。</p>";
             return;
         }
 
@@ -33,7 +33,13 @@ document.getElementById("searchButton").addEventListener("click", function(){
 
         members.forEach(function(member){
             html += `
-                <div>
+
+                <div
+                    class="memberResult"
+                    data-member-id="${member.memberId}"
+                    style="cursor:pointer;"
+                >
+
                     <hr>
                     <h3>${member.name} さん</h3>
                     <p>フリガナ：${member.kana}</p>
@@ -45,11 +51,22 @@ document.getElementById("searchButton").addEventListener("click", function(){
         });
 
         document.getElementById("result").innerHTML = html;
+        document.querySelectorAll(".memberResult").forEach(function(element){
+            element.addEventListener("click", function(){
+
+                const memberId = this.dataset.memberId;
+
+                alert(
+                    "会員を選択しました\n\n会員ID：" + memberId
+                );
+            });
+        });
     })
 
     .catch(error => {
         console.error(error);
-        document.getElementById("result").innerHTML = "通信エラー：" + error.message;
+        document.getElementById("result").innerHTML =
+            "通信エラー：" + error.message;
     });
 });
 
