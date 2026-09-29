@@ -23,11 +23,14 @@ function loadHistory() {
     })
 
     .then(response => response.text())
-    .then(history => {
+
+    .then(text => {
+
         const history = JSON.parse(text);
-        
+
         if(!history || history.length === 0){
-           document.getElementById("result").innerHTML =
+
+            document.getElementById("result").innerHTML =
 
                 "<p>レッスン履歴はありません。</p>";
 
@@ -80,6 +83,4 @@ function loadHistory() {
     });
 
 }
-
-
 
