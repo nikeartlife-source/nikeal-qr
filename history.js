@@ -22,10 +22,7 @@ function loadHistory() {
 
     })
 
-    .then(response => {
-        document.getElementById("result").innerHTML = "GASから返信がありました。";
-        return response.text();
-    })
+    .then(response => response.text())
 
     .then(text => {
 
@@ -86,4 +83,3 @@ function loadHistory() {
     });
 
 }
-
