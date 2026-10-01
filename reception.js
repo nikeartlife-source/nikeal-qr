@@ -28,7 +28,7 @@ function startCamera() {
 function onScanSuccess(decodedText){
   scanner.stop();
   document.getElementById("reader").innerHTML = "";
-  document.getElementById(homeButton").style.display = "block";
+  document.getElementById("homeButton").style.display = "block";
   document.getElementById("result").innerHTML = "会員を検索しています...";
 
   fetch(GAS_URL, {
