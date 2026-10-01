@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,26 +12,19 @@
 <body>
   <div class="container">
     <h1>NikeAL QR受付</h1>
-    <button id="startButton">
-      📷 カメラを起動
-    </button>
-
     <div id="reader"></div>
-    <p id="result">
-      QRコードを読み取ってください
-    </p>
+    <p id="result">QRコードを読み取ってください</p>
+
+    <button id="homeButton" onclick="location.href='index.html'">
+      🏠 ホームに戻る
+    </button>
 
     <button id="nextButton" style="display:none;">
       もう一人受付する
     </button>
-
   </div>
 
   <script src="https://unpkg.com/html5-qrcode"></script>
   <script src="reception.js"></script>
-
 </body>
 </html>
-
-
-
