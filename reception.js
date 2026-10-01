@@ -132,6 +132,7 @@ function showConfirm(member, lesson){
     document.getElementById("result").innerHTML = `
         <h2>登録確認</h2>
         <p>${member.name} さん</p>
+        <p>現在の残りポイント: ${member.remainingPoints}pt</p>
         <p>${lesson.lessonName}</p>
         <p>${lesson.teacher}</p>
         <p id="priceDisplay">
