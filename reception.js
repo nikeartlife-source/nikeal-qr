@@ -1,7 +1,6 @@
 alert("script.js バージョン　7/31");
 
 const GAS_URL = "https://script.google.com/macros/s/AKfycby_VpnfCPFYXOVXNM-34rlEqUwPAQ89iAh_y9a5ku2f3N7UT-xQwWhsHm6lv62p0j2m/exec";
-document.getElementById("startButton").addEventListener("click", startCamera);
 
 let scanner;
 
@@ -225,3 +224,6 @@ document.getElementById("nextButton").addEventListener("click", function(){
     document.getElementById("result").innerHTML = "QRコードを読み取ってください";
     startCamera();
 });
+
+startCamera();
+
