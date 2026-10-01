@@ -61,16 +61,12 @@ function showMemberMenu(member) {
         <p>現在の残りポイント: ${member.remainingPoints}pt</p>
         <button id="lessonButton">レッスン登録</button>
         <button id="pointButton">ポイント購入</button>
-        <button id="homeButton">🏠 ホームに戻る</button>
     `;
     document.getElementById("lessonButton").addEventListener("click", function(){
         loadLessons(member);
     });
     document.getElementById("pointButton").addEventListener("click", function(){
         location.href = "points.html?memberId=" + encodeURIComponent(member.memberId);
-    });
-    document.getElementById("homeButton").addEventListener("click", function(){
-        location.href = "index.html";
     });
 }
 
