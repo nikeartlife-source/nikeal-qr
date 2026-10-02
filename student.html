@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NikeAL マイページ</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>NikeAL</h1>
+
+    <p>マイページ</p>
+
+    <div id="result">
+
+      情報を取得しています...
+
+    </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+
+    const GAS_URL =
+
+      "https://script.google.com/macros/s/AKfycby_VpnfCPFYXOVXNM-34rlEqUwPAQ89iAh_y9a5ku2f3N7UT-xQwWhsHm6lv62p0j2m/exec";
+
+    const params = new URLSearchParams(location.search);
+
+    const key = params.get("key");
+
+    if(!key){
+
+      document.getElementById("result").innerHTML =
+
+        "<p>ページ情報が指定されていません。</p>";
+
+    }else{
+
+      fetch(GAS_URL, {
+
+        method: "POST",
+
+        mode: "cors",
+
+        body: JSON.stringify({
+
+          action: "getStudentMember",
+
+          memberPageKey: key
+
+        })
+
+      })
+
+      .then(response => response.json())
+
+      .then(member => {
+
+        if(!member){
+
+          document.getElementById("result").innerHTML =
+
+            "<p>会員情報が見つかりませんでした。</p>";
+
+          return;
+
+        }
+
+        document.getElementById("result").innerHTML = `
+
+          <h2>${member.name} さん</h2>
+
+          <div style="
+
+            margin: 25px 0;
+
+            padding: 20px;
+
+            border-radius: 12px;
+
+            background: #f5f5f5;
+
+          ">
+
+            <p style="font-size:18px;">
+
+              現在のポイント
+
+            </p>
+
+            <p style="font-size:36px; font-weight:bold;">
+
+              ${member.remainingPoints} pt
+
+            </p>
+
+          </div>
+
+          <h3>会員QRコード</h3>
+
+          <div id="qrcode"></div>
+
+        `;
+
+        new QRCode(
+
+          document.getElementById("qrcode"),
+
+          {
+
+            text: member.qrId,
+
+            width: 250,
+
+            height: 250
+
+          }
+
+        );
+
+      })
+
+      .catch(error => {
+
+        console.error(error);
+
+        document.getElementById("result").innerHTML =
+
+          "通信エラー：" + error.message;
+
+      });
+
+    }
+
+  </script>
+
+</body>
+
+</html>
+
