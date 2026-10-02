@@ -352,23 +352,7 @@ function showPurchaseConfirm(member, plan) {
 
                         </p>
 
-                        <br>
-
-                        <button id="homeButton">
-
-                            ホームに戻る
-
-                        </button>
-
                     `;
-
-                    document.getElementById("homeButton")
-
-                        .addEventListener("click", function(){
-
-                            location.href = "index.html";
-
-                        });
 
                 }else{
 
