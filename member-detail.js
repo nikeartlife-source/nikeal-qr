@@ -77,20 +77,50 @@ if(!memberId){
         `;
 
         new QRCode(
-
             document.getElementById("qrcode"),
-
             {
-
                 text: member.qrId,
-
                 width: 250,
-
                 height: 250
-
             }
-
         );
+
+        const memberPageUrl =
+
+    location.origin +
+
+    location.pathname.replace("member-detail.html", "student.html") +
+
+    "?key=" +
+
+    encodeURIComponent(member.memberPageKey);
+
+document.getElementById("result").insertAdjacentHTML(
+
+    "beforeend",
+
+    `
+
+    <hr>
+
+    <h3>📱 生徒マイページQR</h3>
+
+    <p>生徒のスマホで読み取ってください</p>
+
+    <div id="memberPageQr"></div>
+
+    `
+
+);
+
+new QRCode(
+    document.getElementById("memberPageQr"),
+    {
+        text: memberPageUrl,
+        width: 200,
+        height: 200
+    }
+);
 
         document
 
