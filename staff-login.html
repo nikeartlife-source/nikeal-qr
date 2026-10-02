@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NikeAL スタッフ認証</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>NikeAL</h1>
+
+    <p>スタッフ認証</p>
+
+    <div id="loginArea">
+
+      <input
+
+        type="password"
+
+        id="password"
+
+        placeholder="スタッフ用パスワード"
+
+        style="
+
+          width:100%;
+
+          box-sizing:border-box;
+
+          padding:15px;
+
+          font-size:18px;
+
+          margin:15px 0;
+
+        "
+
+      >
+
+      <button id="loginButton">
+
+        🔐 認証する
+
+      </button>
+
+      <p id="message"></p>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const GAS_URL =
+
+      "https://script.google.com/macros/s/AKfycby_VpnfCPFYXOVXNM-34rlEqUwPAQ89iAh_y9a5ku2f3N7UT-xQwWhsHm6lv62p0j2m/exec";
+
+    document
+
+      .getElementById("loginButton")
+
+      .addEventListener("click", function(){
+
+        const password =
+
+          document.getElementById("password").value;
+
+        if(!password){
+
+          document.getElementById("message").textContent =
+
+            "パスワードを入力してください";
+
+          return;
+
+        }
+
+        fetch(GAS_URL, {
+
+          method:"POST",
+
+          mode:"cors",
+
+          body:JSON.stringify({
+
+            action:"createStaffToken",
+
+            password:password
+
+          })
+
+        })
+
+        .then(response => response.json())
+
+        .then(result => {
+
+          if(!result.success){
+
+            document.getElementById("message").textContent =
+
+              result.message || "認証に失敗しました";
+
+            return;
+
+          }
+
+          // トークンを保存
+
+          localStorage.setItem(
+
+            "nikeal_staff_token",
+
+            result.token
+
+          );
+
+          // 管理画面へ
+
+          location.href = "index.html";
+
+        })
+
+        .catch(error => {
+
+          console.error(error);
+
+          document.getElementById("message").textContent =
+
+            "通信エラー：" + error.message;
+
+        });
+
+      });
+
+  </script>
+
+</body>
+
+</html>
+
