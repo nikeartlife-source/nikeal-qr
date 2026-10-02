@@ -70,6 +70,9 @@
 
       .then(member => {
         console.log(member);
+        document.getElementById("result").innerHTML =  "<pre>" + JSON.stringify(member, null, 2) + "</pre>";
+        return;
+        
         if(!member){
 
           document.getElementById("result").innerHTML =
