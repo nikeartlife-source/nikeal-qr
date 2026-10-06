@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ポイント操作</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>ポイント操作</h1>
+
+    <div id="memberInfo">
+
+      <p>会員情報を読み込み中...</p>
+
+    </div>
+
+    <div class="point-box">
+
+      <p>現在の残ポイント</p>
+
+      <div id="remainingPoints">---</div>
+
+      <span>ポイント</span>
+
+    </div>
+
+    <div class="manage-box">
+
+      <h2>ポイント操作</h2>
+
+      <label for="pointAmount">ポイント数</label>
+
+      <input
+
+        type="number"
+
+        id="pointAmount"
+
+        min="1"
+
+        placeholder="例：21"
+
+      >
+
+      <label for="operationReason">操作理由</label>
+
+      <select id="operationReason">
+
+        <option value="">選択してください</option>
+
+        <option value="POINT QUICからの移行">POINT QUICからの移行</option>
+
+        <option value="ポイント調整">ポイント調整</option>
+
+        <option value="返還">返還</option>
+
+        <option value="その他">その他</option>
+
+      </select>
+
+      <div class="button-row">
+
+        <button type="button" id="addPointBtn">
+
+          ＋ ポイント加算
+
+        </button>
+
+        <button type="button" id="subtractPointBtn">
+
+          − ポイント減算
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <div id="message"></div>
+
+    <div class="history-box">
+
+      <h2>操作履歴</h2>
+
+      <div id="pointHistory">
+
+        まだ操作履歴はありません。
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="point-manage.js"></script>
+
+</body>
+
+</html>
+
