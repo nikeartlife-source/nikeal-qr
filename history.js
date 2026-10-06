@@ -16,8 +16,8 @@ function loadHistory() {
 
         body: JSON.stringify({
 
-            action: "getLessonHistoryList"
-
+            action: "getLessonHistoryList",
+            staffToken: localStorage.getItem("nikeal_staff_token")
         })
 
     })
