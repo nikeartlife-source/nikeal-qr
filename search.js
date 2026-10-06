@@ -16,6 +16,7 @@ document.getElementById("searchButton").addEventListener("click", function(){
         mode: "cors",
         body: JSON.stringify({
             action: "searchMembers",
+            staffToken: localStorage.getItem("nikeal_staff_token"),
             keyword: keyword
         })
     })
