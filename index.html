@@ -15,6 +15,13 @@
 </head>
 
 <body>
+  <script>
+  const staffToken =
+    localStorage.getItem("nikeal_staff_token");
+  if(!staffToken){
+    location.href = "staff-login.html";
+  }
+</script>
 
   <div class="container">
 
