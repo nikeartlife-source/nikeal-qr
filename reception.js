@@ -190,6 +190,7 @@ function showConfirm(member, lesson){
             mode:"cors",
             body:JSON.stringify({
                 action:"registerLesson",
+                staffToken: localStorage.getItem("nikeal_staff_token"),
                 record:{
                     memberId: member.memberId,
                     lessonId: lesson.lessonId,
