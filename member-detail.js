@@ -131,17 +131,18 @@ new QRCode(
             });
 
         document
-
             .getElementById("lessonHistoryButton")
-
             .addEventListener("click", function(){
-
                 location.href =
-
                     "lesson-history.html?memberId=" +
-
                     encodeURIComponent(member.memberId);
-
+            });
+        document
+            .getElementById("pointManageButton")
+            .addEventListener("click", function(){
+                location.href =
+                    "point-manage.html?memberId=" +
+                    encodeURIComponent(member.memberId);
             });
 
     })
