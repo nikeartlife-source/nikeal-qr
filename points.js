@@ -114,7 +114,8 @@ function loadPointPlans(member) {
 
         body: JSON.stringify({
 
-            action: "getPointPlans"
+            action: "getPointPlans",
+            staffToken: localStorage.getItem("nikeal_staff_token")
 
         })
 
