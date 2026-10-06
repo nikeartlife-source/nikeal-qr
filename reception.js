@@ -78,7 +78,8 @@ function loadLessons(member){
         method:"POST",
         mode:"cors",
         body:JSON.stringify({
-            action:"getLessons"
+            action:"getLessons",
+            staffToken: localStorage.getItem("nikeal_staff_token")
         })
     })
     .then(response => response.json())
