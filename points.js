@@ -46,9 +46,7 @@ function loadMember(memberId) {
 
     .then(response => response.json())
     
-    .then(member => {
-        alert(JSON.stringify(member));
-        
+    .then(member => { 
         if(!member){
 
             document.getElementById("result").innerHTML =
