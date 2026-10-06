@@ -33,6 +33,7 @@ document.getElementById("registerButton").addEventListener("click", function(){
         mode: "cors",
         body: JSON.stringify({
             action: "registerMember",
+            staffToken: localStorage.getItem("nikeal_staff_token"),
             member: {
                 name: name,
                 kana: kana,
