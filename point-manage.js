@@ -12,13 +12,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const message = document.getElementById("message");
 
-  // 仮の現在ポイント
+  // 現在のポイント
 
-  let currentPoints = 100;
+let currentPoints = 0;
 
-  // 画面に現在ポイントを表示
+// URLから会員IDを取得
 
-  remainingPoints.textContent = currentPoints;
+const params = new URLSearchParams(location.search);
+
+const memberId = params.get("memberId");
+
+if (!memberId) {
+
+  message.textContent = "会員情報が指定されていません。";
+
+} else {
+
+  fetch(GAS_URL, {
+
+    method: "POST",
+
+    mode: "cors",
+
+    body: JSON.stringify({
+
+      action: "getMemberById",
+
+      staffToken: localStorage.getItem("nikeal_staff_token"),
+
+      memberId: memberId
+
+    })
+
+  })
+
+  .then(response => response.json())
+
+  .then(member => {
+
+    if (!member) {
+
+      message.textContent = "会員が見つかりませんでした。";
+
+      return;
+
+    }
+
+    document.getElementById("memberInfo").innerHTML =
+
+      `<h2>${member.name} さん</h2>`;
+
+    currentPoints = Number(member.remainingPoints) || 0;
+
+    remainingPoints.textContent = currentPoints;
+
+  })
+
+  .catch(error => {
+
+    console.error(error);
+
+    message.textContent =
+
+      "通信エラー：" + error.message;
+
+  });
+
+}
+
 
   // ＋ポイント
 
