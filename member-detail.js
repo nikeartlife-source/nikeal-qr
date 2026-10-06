@@ -13,19 +13,13 @@ if(!memberId){
 }else{
 
     fetch(GAS_URL, {
-
         method: "POST",
-
         mode: "cors",
-
         body: JSON.stringify({
-
             action: "getMemberById",
-
+            staffToken: localStorage.getItem("nikeal_staff_token"),
             memberId: memberId
-
         })
-
     })
 
     .then(response => response.json())
