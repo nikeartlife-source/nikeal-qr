@@ -21,7 +21,7 @@ if(!memberId){
         body: JSON.stringify({
 
             action: "getLessonHistory",
-
+            staffToken: localStorage.getItem("nikeal_staff_token"),
             memberId: memberId
 
         })
