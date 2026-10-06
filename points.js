@@ -293,7 +293,7 @@ function showPurchaseConfirm(member, plan) {
                 body: JSON.stringify({
 
                     action: "purchasePoints",
-
+                    staffToken: localStorage.getItem("nikeal_staff_token"),
                     record: {
 
                         memberId: member.memberId,
