@@ -37,7 +37,7 @@ function loadMember(memberId) {
         body: JSON.stringify({
 
             action: "getMemberById",
-
+            staffToken: localStorage.getItem("nikeal_staff_token"),
             memberId: memberId
 
         })
