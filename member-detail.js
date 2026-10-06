@@ -57,15 +57,15 @@ if(!memberId){
             <br>
 
             <button id="pointHistoryButton">
-
                 💰 ポイント購入履歴
-
             </button>
 
             <button id="lessonHistoryButton">
-
                 📖 レッスン履歴
+            </button>
 
+            <button id="pointManageButton">
+                💰 ポイント操作
             </button>
 
         `;
