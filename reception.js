@@ -35,6 +35,7 @@ function onScanSuccess(decodedText){
       mode: "cors",
       body: JSON.stringify({
           action: "findMemberByQr",
+          staffToken: localStorage.getItem(nikeal_staff_token"),
           qrId: decodedText
       })
   })
