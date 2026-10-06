@@ -13,6 +13,7 @@ if(!memberId){
         mode: "cors",
         body: JSON.stringify({
             action: "getPointHistory",
+            staffToken: localStorage.getItem("nikeal_staff_token"),
             memberId: memberId
         })
     })
