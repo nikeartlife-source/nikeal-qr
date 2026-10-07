@@ -2,15 +2,10 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycby_VpnfCPFYXOVXNM-34rlE
 document.addEventListener("DOMContentLoaded", function () {
 
   const addPointBtn = document.getElementById("addPointBtn");
-
   const subtractPointBtn = document.getElementById("subtractPointBtn");
-
   const pointAmount = document.getElementById("pointAmount");
-
   const operationReason = document.getElementById("operationReason");
-
   const remainingPoints = document.getElementById("remainingPoints");
-
   const message = document.getElementById("message");
 
   // 現在のポイント
@@ -30,21 +25,13 @@ if (!memberId) {
 } else {
 
   fetch(GAS_URL, {
-
     method: "POST",
-
     mode: "cors",
-
     body: JSON.stringify({
-
       action: "getMemberById",
-
       staffToken: localStorage.getItem("nikeal_staff_token"),
-
       memberId: memberId
-
     })
-
   })
 
   .then(response => response.json())
@@ -81,40 +68,64 @@ if (!memberId) {
 
 }
 
+// ＋ポイント
 
-  // ＋ポイント
+addPointBtn.addEventListener("click", function () {
 
-  addPointBtn.addEventListener("click", function () {
+  const amount = Number(pointAmount.value);
 
-    const amount = Number(pointAmount.value);
+  if (!amount || amount <= 0) {
+    message.textContent = "ポイント数を入力してください。";
+    return;
+  }
 
-    if (!amount || amount <= 0) {
+  if (!operationReason.value) {
+    message.textContent = "操作理由を選択してください。";
+    return;
+  }
 
-      message.textContent = "ポイント数を入力してください。";
+  const record = {
+    memberId: memberId,
+    memberName: document
+      .querySelector("#memberInfo h2")
+      .textContent
+      .replace(" さん", ""),
+    points: amount,
+    reason: operationReason.value
+  };
 
+  fetch(GAS_URL, {
+    method: "POST",
+    mode: "cors",
+    body: JSON.stringify({
+      action: "addPointManage",
+      staffToken: localStorage.getItem("nikeal_staff_token"),
+      record: record
+    })
+  })
+
+  .then(response => response.json())
+  .then(result => {
+
+    if (!result.success) {
+      message.textContent =
+        result.message || "ポイント加算に失敗しました。";
       return;
-
     }
 
-    if (!operationReason.value) {
-
-      message.textContent = "操作理由を選択してください。";
-
-      return;
-
-    }
-
-    currentPoints += amount;
-
+    currentPoints = Number(result.remainingPoints) || 0;
     remainingPoints.textContent = currentPoints;
-
     message.textContent =
-
       amount + "ポイント加算しました。";
-
     pointAmount.value = "";
+  })
 
+  .catch(error => {
+    console.error(error);
+    message.textContent =
+      "通信エラー：" + error.message;
   });
+});
 
   // −ポイント
 
