@@ -25,23 +25,46 @@ if (!memberId) {
 
 } else {
 
-  fetch(GAS_URL, {
+   fetch(GAS_URL, {
+
     method: "POST",
+
     mode: "cors",
+
     body: JSON.stringify({
+
       action: "getMemberById",
+
       staffToken: localStorage.getItem("nikeal_staff_token"),
+
       memberId: memberId
+
     })
+
   })
 
-  .then(response => response.json())
+  .then(response => {
+
+    if (!response.ok) {
+
+      throw new Error("HTTPエラー：" + response.status);
+
+    }
+
+    return response.json();
+
+  })
 
   .then(member => {
+
     currentMember = member;
+
     if (!member) {
+
       message.textContent = "会員が見つかりませんでした。";
+
       return;
+
     }
 
     document.getElementById("memberInfo").innerHTML =
@@ -58,9 +81,13 @@ if (!memberId) {
 
     console.error(error);
 
+    document.getElementById("memberInfo").innerHTML =
+
+      "<p>会員情報の取得に失敗しました。</p>";
+
     message.textContent =
 
-      "会員情報取得エラー：" + error.message;
+      "エラー：" + error.message;
 
   });
 
