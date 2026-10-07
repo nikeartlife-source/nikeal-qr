@@ -60,7 +60,7 @@ if (!memberId) {
 
     message.textContent =
 
-      "通信エラー：" + error.message;
+      "会員情報取得エラー：" + error.message;
 
   });
 
