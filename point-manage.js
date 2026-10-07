@@ -154,7 +154,7 @@ addPointBtn.addEventListener("click", function () {
   });
 });
 
-  // −ポイント
+   // −ポイント
 
   subtractPointBtn.addEventListener("click", function () {
 
@@ -186,15 +186,79 @@ addPointBtn.addEventListener("click", function () {
 
     }
 
-    currentPoints -= amount;
+    if (!currentMember) {
 
-    remainingPoints.textContent = currentPoints;
+      message.textContent = "会員情報を読み込んでください。";
 
-    message.textContent =
+      return;
 
-      amount + "ポイント減算しました。";
+    }
 
-    pointAmount.value = "";
+    const record = {
+
+      memberId: memberId,
+
+      memberName: currentMember.name,
+
+      points: amount,
+
+      reason: operationReason.value
+
+    };
+
+    message.textContent = "減算処理中…";
+
+    fetch(GAS_URL, {
+
+      method: "POST",
+
+      mode: "cors",
+
+      body: JSON.stringify({
+
+        action: "subtractPointManage",
+
+        staffToken: localStorage.getItem("nikeal_staff_token"),
+
+        record: record
+
+      })
+
+    })
+
+      .then(response => response.json())
+
+      .then(result => {
+
+        if (!result.success) {
+
+          message.textContent = result.message || "減算できませんでした。";
+
+          return;
+
+        }
+
+        currentPoints = Number(result.remainingPoints);
+
+        remainingPoints.textContent = currentPoints;
+
+        message.textContent =
+
+          amount + "ポイント減算しました。";
+
+        pointAmount.value = "";
+
+      })
+
+      .catch(error => {
+
+        console.error(error);
+
+        message.textContent =
+
+          "通信エラー：" + error.message;
+
+      });
 
   });
 
