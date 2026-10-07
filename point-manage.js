@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 現在のポイント
 
-let currentPoints = 0;
+  let currentPoints = 0;
+  let currentMember = null;
 
 // URLから会員IDを取得
 
@@ -37,13 +38,10 @@ if (!memberId) {
   .then(response => response.json())
 
   .then(member => {
-
+    currentMember = member;
     if (!member) {
-
       message.textContent = "会員が見つかりませんでした。";
-
       return;
-
     }
 
     document.getElementById("memberInfo").innerHTML =
@@ -84,12 +82,14 @@ addPointBtn.addEventListener("click", function () {
     return;
   }
 
+  if (!currentMember) {
+    message.textContent = "会員情報を読み込み中です。";
+    return;
+  }
+
   const record = {
     memberId: memberId,
-    memberName: document
-      .querySelector("#memberInfo h2")
-      .textContent
-      .replace(" さん", ""),
+    memberName: currentMember.name,
     points: amount,
     reason: operationReason.value
   };
