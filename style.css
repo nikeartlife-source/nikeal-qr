@@ -34,3 +34,33 @@ button{
   font-size:18px;
   font-weight:bold;
 }
+
+/* ポイント操作履歴 */
+.point-history-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.point-history-item span {
+  overflow-wrap: anywhere;
+}
+
+.point-history-item span:first-child {
+  color: #666;
+  font-size: 12px;
+}
+
+.point-history-item span:nth-child(4),
+.point-history-item span:nth-child(5) {
+  font-weight: bold;
+}
+
+#pointHistory {
+  line-height: 1.5;
+}
+
+
