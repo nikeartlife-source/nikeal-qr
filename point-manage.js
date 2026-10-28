@@ -145,6 +145,7 @@ addPointBtn.addEventListener("click", function () {
     message.textContent =
       amount + "ポイント加算しました。";
     pointAmount.value = "";
+    loadPointOperationHistory();
   })
 
   .catch(error => {
