@@ -240,15 +240,12 @@ addPointBtn.addEventListener("click", function () {
         }
 
         currentPoints = Number(result.remainingPoints);
-
         remainingPoints.textContent = currentPoints;
 
         message.textContent =
-
           amount + "ポイント減算しました。";
-
         pointAmount.value = "";
-
+        loadPointOperationHistory();
       })
 
       .catch(error => {
