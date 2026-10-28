@@ -262,5 +262,111 @@ addPointBtn.addEventListener("click", function () {
 
   });
 
+// 操作履歴を読み込む
+
+  function loadPointOperationHistory() {
+
+    const pointHistory = document.getElementById("pointHistory");
+
+    if (!memberId) {
+
+      pointHistory.textContent = "会員情報が指定されていません。";
+
+      return;
+
+    }
+
+    pointHistory.textContent = "操作履歴を読み込み中...";
+
+    fetch(GAS_URL, {
+
+      method: "POST",
+
+      mode: "cors",
+
+      body: JSON.stringify({
+
+        action: "getPointOperationHistory",
+
+        staffToken: localStorage.getItem("nikeal_staff_token"),
+
+        memberId: memberId
+
+      })
+
+    })
+
+      .then(response => {
+
+        if (!response.ok) {
+
+          throw new Error("HTTPエラー：" + response.status);
+
+        }
+
+        return response.json();
+
+      })
+
+      .then(result => {
+
+        if (!result.success || !Array.isArray(result.history)) {
+
+          pointHistory.textContent = "操作履歴を取得できませんでした。";
+
+          return;
+
+        }
+
+        if (result.history.length === 0) {
+
+          pointHistory.textContent = "まだ操作履歴はありません。";
+
+          return;
+
+        }
+
+        pointHistory.innerHTML = "";
+
+        result.history.forEach(item => {
+
+          const row = document.createElement("div");
+
+          row.className = "point-history-item";
+
+          const date = document.createElement("p");
+
+          date.textContent = item.date || "";
+
+          const detail = document.createElement("p");
+
+          detail.textContent =
+
+            `${item.type || "操作"}：${item.points} pt`;
+
+          const reason = document.createElement("p");
+
+          reason.textContent = `理由：${item.reason || "未記入"}`;
+
+          row.append(date, detail, reason);
+
+          pointHistory.appendChild(row);
+
+        });
+
+      })
+
+      .catch(error => {
+
+        console.error(error);
+
+        pointHistory.textContent = "操作履歴の取得に失敗しました。";
+
+      });
+
+  }
+
+  loadPointOperationHistory();
+  
 });
 
