@@ -331,29 +331,30 @@ addPointBtn.addEventListener("click", function () {
         result.history.forEach(item => {
 
           const row = document.createElement("div");
-
           row.className = "point-history-item";
 
-          const date = document.createElement("p");
-
+          const date = document.createElement("span");
           date.textContent = item.date || "";
+          
+          const detail = document.createElement("span");
+          detail.textContent = item.type || "操作";
 
-          const detail = document.createElement("p");
+          const reason = document.createElement("span");
+          reason.textContent = item.reason || "未記入";
 
-          detail.textContent =
+          const points = document.createElement("span");
+          points.textContent = `${item.points} pt`;
 
-            `${item.type || "操作"}：${item.points} pt`;
+          const balance = document.createElement("span");
+          balance.textContent =
+            item.balance !== "" && item.balance != null
+              ? `残 ${item.balance} pt`
+              : "残 —";
 
-          const reason = document.createElement("p");
-
-          reason.textContent = `理由：${item.reason || "未記入"}`;
-
-          row.append(date, detail, reason);
-
+          row.append(date, detail, reason, points, balance);
           pointHistory.appendChild(row);
 
         });
-
       })
 
       .catch(error => {
