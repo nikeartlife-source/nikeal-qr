@@ -307,12 +307,15 @@ function getPaymentType(method) {
 }
 
 // 集計
-
 function displaySummary(history) {
 
     const lessonGroups = {};
 
     const monthlyGroups = {};
+
+    // 同じ会員・クラス・担当・年月の重複を防ぐ
+
+    const monthlySeen = new Set();
 
     history.forEach(record => {
 
@@ -368,6 +371,34 @@ function displaySummary(history) {
 
         if (type === "monthly") {
 
+            const date = normalizeDate(record.date);
+
+            const month = date.substring(0, 7);
+
+            const memberName = record.memberName || "未設定";
+
+            // 会員・クラス・担当・年月で一意にする
+
+            const uniqueKey = JSON.stringify([
+
+                memberName,
+
+                lessonName,
+
+                teacher,
+
+                month
+
+            ]);
+
+            if (monthlySeen.has(uniqueKey)) {
+
+                return;
+
+            }
+
+            monthlySeen.add(uniqueKey);
+
             if (!monthlyGroups[key]) {
 
                 monthlyGroups[key] = {
@@ -375,8 +406,6 @@ function displaySummary(history) {
                     lessonName,
 
                     teacher,
-
-                    dates: new Set(),
 
                     usageCount: 0,
 
@@ -387,8 +416,6 @@ function displaySummary(history) {
             }
 
             const group = monthlyGroups[key];
-
-            group.dates.add(normalizeDate(record.date));
 
             group.usageCount++;
 
@@ -478,9 +505,7 @@ function displaySummary(history) {
 
                     <th>クラス・担当</th>
 
-                    <th>レッスン回数</th>
-
-                    <th>利用件数</th>
+                    <th>月謝利用件数</th>
 
                     <th>月謝合計</th>
 
@@ -490,7 +515,7 @@ function displaySummary(history) {
 
     if (monthlyRows.length === 0) {
 
-        html += `<tr><td colspan="4">該当データなし</td></tr>`;
+        html += `<tr><td colspan="3">該当データなし</td></tr>`;
 
     }
 
@@ -504,30 +529,21 @@ function displaySummary(history) {
 
                     ${escapeHtml(group.teacher)}</td>
 
-                <td>${group.dates.size}回</td>
-
                 <td>${group.usageCount}件</td>
 
                 <td>${yen(group.total)}</td>
 
             </tr>
-
         `;
-
     });
 
     html += `
 
             </table>
-
             </div>
-
         </div>
-
     `;
-
     document.getElementById("summaryArea").innerHTML = html;
-
 }
 
 // 履歴一覧
